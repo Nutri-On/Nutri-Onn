@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUTRI-ON - Sua Jornada Nutricional</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .motivational-quote {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-animation {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="min-h-full">
+  <main class="gradient-bg min-h-full py-8 px-4">
+   <div class="max-w-4xl mx-auto"><!-- Header -->
+    <header class="text-center mb-8">
+     <h1 id="app-title" class="text-5xl font-bold text-white mb-4 tracking-wide">NUTRI-ON</h1>
+     <p id="welcome-message" class="text-xl text-white opacity-90 max-w-2xl mx-auto leading-relaxed">Sua jornada para uma vida mais saudável começa aqui! Vamos conhecer você melhor para criar o melhor plano nutricional.</p>
+    </header><!-- Motivational Quote -->
+    <div class="motivational-quote text-center mb-8">
+     <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
+      <p id="quote-text" class="text-white text-lg font-medium italic">"Mude seus pensamentos e você mudará o seu mundo"</p>
+     </div>
+    </div><!-- Main Content -->
+    <div id="form-container" class="bg-white rounded-3xl card-shadow p-8 mb-8">
+     <h2 id="form-title" class="text-3xl font-bold text-gray-800 mb-6 text-center">Conte-nos sobre você</h2>
+     <form id="client-form" class="space-y-6"><!-- Informações Pessoais -->
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label for="nome" class="block text-sm font-semibold text-gray-700 mb-2">Nome Completo</label> <input type="text" id="nome" name="nome" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors">
+       </div>
+       <div><label for="idade" class="block text-sm font-semibold text-gray-700 mb-2">Idade</label> <input type="number" id="idade" name="idade" min="16" max="100" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors">
+       </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label for="peso" class="block text-sm font-semibold text-gray-700 mb-2">Peso (kg)</label> <input type="number" id="peso" name="peso" min="30" max="300" step="0.1" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors">
+       </div>
+       <div><label for="altura" class="block text-sm font-semibold text-gray-700 mb-2">Altura (cm)</label> <input type="number" id="altura" name="altura" min="140" max="220" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors">
+       </div>
+      </div><!-- Objetivo -->
+      <div><label for="objetivo" class="block text-sm font-semibold text-gray-700 mb-2">Qual é o seu objetivo principal?</label> <select id="objetivo" name="objetivo" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"> <option value="">Selecione seu objetivo</option> <option value="perder_peso">Perder peso</option> <option value="ganhar_massa">Ganhar massa muscular</option> <option value="manter_peso">Manter peso atual</option> <option value="vida_saudavel">Ter uma vida mais saudável</option> </select>
+      </div><!-- Rotina de Alimentação -->
+      <div><label for="rotina_alimentacao" class="block text-sm font-semibold text-gray-700 mb-2">Como é sua rotina de alimentação atual?</label> <textarea id="rotina_alimentacao" name="rotina_alimentacao" rows="3" required placeholder="Ex: Faço 3 refeições por dia, como muito fast food, pulo o café da manhã..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors resize-none"></textarea>
+      </div><!-- Rotina de Exercícios -->
+      <div><label for="rotina_exercicios" class="block text-sm font-semibold text-gray-700 mb-2">Qual é sua rotina de exercícios?</label> <textarea id="rotina_exercicios" name="rotina_exercicios" rows="3" required placeholder="Ex: Não pratico exercícios, caminho 3x por semana, vou à academia..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors resize-none"></textarea>
+      </div><!-- Nível de Atividade -->
+      <div><label for="nivel_atividade" class="block text-sm font-semibold text-gray-700 mb-2">Nível de atividade física</label> <select id="nivel_atividade" name="nivel_atividade" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"> <option value="">Selecione seu nível</option> <option value="sedentario">Sedentário (pouco ou nenhum exercício)</option> <option value="leve">Levemente ativo (exercício leve 1-3 dias/semana)</option> <option value="moderado">Moderadamente ativo (exercício moderado 3-5 dias/semana)</option> <option value="intenso">Muito ativo (exercício intenso 6-7 dias/semana)</option> </select>
+      </div><!-- Restrições Alimentares -->
+      <div><label for="restricoes" class="block text-sm font-semibold text-gray-700 mb-2">Possui alguma restrição alimentar ou alergia?</label> <textarea id="restricoes" name="restricoes" rows="2" placeholder="Ex: Intolerância à lactose, vegetariano, alergia a amendoim... (deixe em branco se não houver)" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors resize-none"></textarea>
+      </div><!-- Submit Button -->
+      <div class="text-center pt-4"><button type="submit" id="submit-btn" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg"> <span id="btn-text">Iniciar Minha Jornada</span> <span id="btn-loading" class="hidden">Salvando...</span> </button>
+      </div>
+     </form>
+    </div><!-- Success Message -->
+    <div id="success-message" class="hidden bg-white rounded-3xl card-shadow p-8 text-center success-animation">
+     <div class="text-6xl mb-4">
+      🎉
+     </div>
+     <h3 class="text-2xl font-bold text-gray-800 mb-4">Parabéns! Sua jornada começou!</h3>
+     <p class="text-gray-600 mb-6">Suas informações foram salvas com sucesso. Agora você está pronto para transformar sua vida!</p>
+     <div class="bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl p-4">
+      <p class="text-gray-700 font-medium italic">"O sucesso é a soma de pequenos esforços repetidos dia após dia"</p>
+     </div>
+     <div class="flex flex-col sm:flex-row gap-4 mt-6 justify-center"><button id="consult-ai-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200"> 🤖 Consultar IA Nutricional </button> <button id="new-client-btn" class="bg-gradient-to-r from-green-500 to-teal-500 text-white font-bold py-3 px-6 rounded-xl hover:from-green-600 hover:to-teal-600 transition-all duration-200"> Cadastrar Novo Cliente </button>
+     </div>
+    </div><!-- Subscription Plan -->
+    <div id="subscription-plan" class="hidden bg-white rounded-3xl card-shadow p-8">
+     <div class="text-center mb-8">
+      <div class="text-4xl mb-4">
+       💎
+      </div>
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">Plano Premium IA Nutricional</h3>
+      <p class="text-gray-600 mb-6">Acesse orientações personalizadas com nossa Inteligência Artificial especializada em nutrição</p>
+      <div class="bg-gradient-to-r from-purple-100 to-blue-100 rounded-2xl p-8 max-w-md mx-auto mb-8">
+       <div class="text-5xl font-bold text-purple-600 mb-2">
+        R$ 18,90
+       </div>
+       <div class="text-gray-600 text-lg">
+        por mês
+       </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
+       <div class="text-left">
+        <h4 class="font-bold text-gray-800 mb-3">✨ O que você terá:</h4>
+        <ul class="space-y-2 text-gray-600">
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Chat ilimitado com IA nutricional</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Análise personalizada do seu IMC</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Cálculo de calorias diárias</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Sugestões de exercícios ideais</li>
+        </ul>
+       </div>
+       <div class="text-left">
+        <h4 class="font-bold text-gray-800 mb-3">🎯 Benefícios exclusivos:</h4>
+        <ul class="space-y-2 text-gray-600">
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Cardápios semanais personalizados</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Orientações baseadas no seu perfil</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Suporte para restrições alimentares</li>
+         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Acompanhamento de metas</li>
+        </ul>
+       </div>
+      </div>
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left max-w-2xl mx-auto">
+       <div class="flex">
+        <div class="text-yellow-400 text-xl mr-3">
+         ⚠️
+        </div>
+        <div>
+         <p class="text-yellow-800 font-semibold">Demonstração do Sistema de Pagamento</p>
+         <p class="text-yellow-700 text-sm mt-1">Este é um protótipo. Em um sistema real, a integração seria feita com processadores de pagamento como Stripe, PagSeguro ou Mercado Pago.</p>
+        </div>
+       </div>
+      </div><button id="subscribe-btn" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg text-lg"> 🚀 Assinar Plano Premium </button>
+      <p class="text-gray-500 text-sm mt-4">Cancele a qualquer momento • Sem taxas ocultas</p>
+     </div>
+     <div class="text-center"><button id="back-to-main-from-subscription" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-600 transition-all duration-200"> ← Voltar ao Início </button>
+     </div>
+    </div><!-- AI Nutrition Assistant -->
+    <div id="ai-assistant" class="hidden bg-white rounded-3xl card-shadow p-8">
+     <div class="text-center mb-6">
+      <div class="text-4xl mb-4">
+       🤖
+      </div>
+      <h3 class="text-2xl font-bold text-gray-800 mb-2">Assistente IA Nutricional Premium</h3>
+      <p class="text-gray-600">Orientações personalizadas baseadas no seu perfil</p>
+      <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block mt-2">
+       ✅ Plano Premium Ativo
+      </div>
+     </div><!-- Client Selection -->
+     <div class="mb-6"><label for="client-select" class="block text-sm font-semibold text-gray-700 mb-2">Selecione o cliente:</label> <select id="client-select" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"> <option value="">Escolha um cliente cadastrado</option> </select>
+     </div><!-- Client Profile Display -->
+     <div id="client-profile" class="hidden bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
+      <h4 class="font-bold text-lg text-gray-800 mb-4">Perfil do Cliente</h4>
+      <div id="profile-details" class="grid md:grid-cols-2 gap-4 text-sm"></div>
+     </div><!-- Chat Interface -->
+     <div id="chat-container" class="hidden">
+      <div id="chat-messages" class="bg-gray-50 rounded-xl p-4 h-96 overflow-y-auto mb-4 space-y-4">
+       <div class="flex items-start space-x-3">
+        <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+         IA
+        </div>
+        <div class="bg-white rounded-lg p-3 shadow-sm flex-1">
+         <p class="text-gray-800">Olá! Sou sua assistente nutricional. Baseado no seu perfil, posso te ajudar com orientações personalizadas sobre alimentação, exercícios e metas. Como posso te ajudar hoje?</p>
+        </div>
+       </div>
+      </div>
+      <div class="flex space-x-3"><input type="text" id="user-message" placeholder="Digite sua pergunta sobre nutrição..." class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"> <button id="send-message" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200 font-semibold"> Enviar </button>
+      </div><!-- Quick Questions -->
+      <div class="mt-4">
+       <p class="text-sm font-semibold text-gray-700 mb-2">Perguntas rápidas:</p>
+       <div class="flex flex-wrap gap-2"><button class="quick-question bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm transition-colors" data-question="Qual meu IMC e o que significa?"> 📊 Meu IMC </button> <button class="quick-question bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm transition-colors" data-question="Quantas calorias devo consumir por dia?"> 🔥 Calorias diárias </button> <button class="quick-question bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm transition-colors" data-question="Que exercícios são ideais para mim?"> 💪 Exercícios ideais </button> <button class="quick-question bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm transition-colors" data-question="Monte um cardápio semanal para mim"> 🍽️ Cardápio semanal </button>
+       </div>
+      </div>
+     </div>
+     <div class="text-center mt-6"><button id="back-to-main" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-600 transition-all duration-200"> ← Voltar ao Início </button>
+     </div>
+    </div><!-- Clients List -->
+    <div id="clients-section" class="bg-white rounded-3xl card-shadow p-8">
+     <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Clientes Cadastrados</h3>
+     <div id="clients-list" class="space-y-4">
+      <p class="text-gray-500 text-center italic">Nenhum cliente cadastrado ainda. Seja o primeiro!</p>
+     </div>
+    </div><!-- Footer with Motivational Quotes -->
+    <footer class="text-center mt-8">
+     <div class="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+      <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-4">
+       <p class="text-white text-sm font-medium italic">"A persistência realiza o impossível"</p>
+      </div>
+      <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-4">
+       <p class="text-white text-sm font-medium italic">"Não espere por oportunidades, crie-as"</p>
+      </div>
+     </div>
+    </footer>
+   </div>
+  </main>
+  <script>
+        // Configuration
+        const defaultConfig = {
+            app_title: "NUTRI-ON",
+            welcome_message: "Sua jornada para uma vida mais saudável começa aqui! Vamos conhecer você melhor para criar o melhor plano nutricional.",
+            form_title: "Conte-nos sobre você",
+            primary_color: "#667eea",
+            secondary_color: "#764ba2",
+            accent_color: "#10b981",
+            text_color: "#374151",
+            surface_color: "#ffffff"
+        };
+
+        // Motivational quotes
+        const quotes = [
+            "Mude seus pensamentos e você mudará o seu mundo",
+            "A felicidade não é algo pronto. Ela é resultado das suas próprias ações",
+            "A melhor forma de prever o futuro é criá-lo",
+            "Não espere por oportunidades, crie-as",
+            "O sucesso é a soma de pequenos esforços repetidos dia após dia",
+            "O fracasso é a oportunidade de recomeçar com mais inteligência",
+            "A persistência realiza o impossível"
+        ];
+
+        let currentClients = [];
+        let currentQuoteIndex = 0;
+
+        // Data SDK Handler
+        const dataHandler = {
+            onDataChanged(data) {
+                currentClients = data;
+                renderClientsList();
+            }
+        };
+
+        // Element SDK Configuration
+        async function onConfigChange(config) {
+            document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+            document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+            document.getElementById('form-title').textContent = config.form_title || defaultConfig.form_title;
+            
+            // Apply colors
+            const primaryColor = config.primary_color || defaultConfig.primary_color;
+            const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+            const accentColor = config.accent_color || defaultConfig.accent_color;
+            const textColor = config.text_color || defaultConfig.text_color;
+            const surfaceColor = config.surface_color || defaultConfig.surface_color;
+            
+            document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            
+            const cards = document.querySelectorAll('.bg-white');
+            cards.forEach(card => {
+                if (!card.classList.contains('bg-opacity-20')) {
+                    card.style.backgroundColor = surfaceColor;
+                }
+            });
+            
+            const textElements = document.querySelectorAll('.text-gray-800, .text-gray-700, .text-gray-600');
+            textElements.forEach(el => {
+                el.style.color = textColor;
+            });
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.style.background = `linear-gradient(to right, ${primaryColor}, ${accentColor})`;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.secondary_color || defaultConfig.secondary_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.surface_color || defaultConfig.surface_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["app_title", config.app_title || defaultConfig.app_title],
+                ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
+                ["form_title", config.form_title || defaultConfig.form_title]
+            ]);
+        }
+
+        // Initialize SDKs
+        async function initializeApp() {
+            // Initialize Data SDK
+            if (window.dataSdk) {
+                const initResult = await window.dataSdk.init(dataHandler);
+                if (!initResult.isOk) {
+                    console.error("Failed to initialize data SDK");
+                }
+            }
+
+            // Initialize Element SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange,
+                    mapToCapabilities,
+                    mapToEditPanelValues
+                });
+            }
+
+            // Start quote rotation
+            rotateQuotes();
+        }
+
+        // Form submission
+        document.getElementById('client-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (currentClients.length >= 999) {
+                showToast("Limite máximo de 999 clientes atingido. Exclua alguns clientes primeiro.", "error");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+
+            const formData = new FormData(e.target);
+            const clientData = {
+                id: Date.now().toString(),
+                nome: formData.get('nome'),
+                idade: parseInt(formData.get('idade')),
+                peso: parseFloat(formData.get('peso')),
+                altura: parseInt(formData.get('altura')),
+                objetivo: formData.get('objetivo'),
+                rotina_alimentacao: formData.get('rotina_alimentacao'),
+                rotina_exercicios: formData.get('rotina_exercicios'),
+                nivel_atividade: formData.get('nivel_atividade'),
+                restricoes: formData.get('restricoes') || 'Nenhuma',
+                createdAt: new Date().toISOString()
+            };
+
+            if (window.dataSdk) {
+                const result = await window.dataSdk.create(clientData);
+                
+                // Reset loading state
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoading.classList.add('hidden');
+                
+                if (result.isOk) {
+                    showSuccessMessage();
+                } else {
+                    showToast("Erro ao salvar os dados. Tente novamente.", "error");
+                }
+            }
+        });
+
+        // Show success message
+        function showSuccessMessage() {
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('client-form').reset();
+        }
+
+        // New client button
+        document.getElementById('new-client-btn').addEventListener('click', function() {
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        });
+
+        // AI Consultation button
+        document.getElementById('consult-ai-btn').addEventListener('click', function() {
+            document.getElementById('success-message').classList.add('hidden');
+            showSubscriptionPlan();
+        });
+
+        // Back to main button
+        document.getElementById('back-to-main').addEventListener('click', function() {
+            document.getElementById('ai-assistant').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        });
+
+        // Back to main from subscription
+        document.getElementById('back-to-main-from-subscription').addEventListener('click', function() {
+            document.getElementById('subscription-plan').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        });
+
+        // Subscribe button
+        document.getElementById('subscribe-btn').addEventListener('click', function() {
+            // Simulate subscription process
+            const btn = this;
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '⏳ Processando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '✅ Assinatura Ativada!';
+                
+                setTimeout(() => {
+                    document.getElementById('subscription-plan').classList.add('hidden');
+                    showAIAssistant();
+                    showToast('Parabéns! Seu plano Premium foi ativado com sucesso! 🎉', 'success');
+                }, 1500);
+            }, 2000);
+        });
+
+        // Show Subscription Plan
+        function showSubscriptionPlan() {
+            document.getElementById('subscription-plan').classList.remove('hidden');
+        }
+
+        // Show AI Assistant
+        function showAIAssistant() {
+            document.getElementById('ai-assistant').classList.remove('hidden');
+            populateClientSelect();
+        }
+
+        // Populate client selection dropdown
+        function populateClientSelect() {
+            const select = document.getElementById('client-select');
+            select.innerHTML = '<option value="">Escolha um cliente cadastrado</option>';
+            
+            currentClients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.__backendId;
+                option.textContent = `${client.nome} (${client.idade} anos)`;
+                select.appendChild(option);
+            });
+        }
+
+        // Client selection change
+        document.getElementById('client-select').addEventListener('change', function() {
+            const selectedId = this.value;
+            if (selectedId) {
+                const client = currentClients.find(c => c.__backendId === selectedId);
+                if (client) {
+                    showClientProfile(client);
+                    document.getElementById('chat-container').classList.remove('hidden');
+                    resetChat();
+                }
+            } else {
+                document.getElementById('client-profile').classList.add('hidden');
+                document.getElementById('chat-container').classList.add('hidden');
+            }
+        });
+
+        // Show client profile
+        function showClientProfile(client) {
+            const profileDiv = document.getElementById('client-profile');
+            const detailsDiv = document.getElementById('profile-details');
+            
+            const imc = (client.peso / ((client.altura / 100) ** 2)).toFixed(1);
+            let imcCategory = '';
+            if (imc < 18.5) imcCategory = 'Abaixo do peso';
+            else if (imc < 25) imcCategory = 'Peso normal';
+            else if (imc < 30) imcCategory = 'Sobrepeso';
+            else imcCategory = 'Obesidade';
+            
+            detailsDiv.innerHTML = `
+                <div><strong>Nome:</strong> ${client.nome}</div>
+                <div><strong>Idade:</strong> ${client.idade} anos</div>
+                <div><strong>Peso:</strong> ${client.peso} kg</div>
+                <div><strong>Altura:</strong> ${client.altura} cm</div>
+                <div><strong>IMC:</strong> ${imc} (${imcCategory})</div>
+                <div><strong>Objetivo:</strong> ${client.objetivo.replace('_', ' ')}</div>
+                <div><strong>Nível de Atividade:</strong> ${client.nivel_atividade}</div>
+                <div><strong>Restrições:</strong> ${client.restricoes}</div>
+            `;
+            
+            profileDiv.classList.remove('hidden');
+        }
+
+        // Reset chat
+        function resetChat() {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">IA</div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm flex-1">
+                        <p class="text-gray-800">Olá! Sou sua assistente nutricional. Baseado no seu perfil, posso te ajudar com orientações personalizadas sobre alimentação, exercícios e metas. Como posso te ajudar hoje?</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Send message
+        document.getElementById('send-message').addEventListener('click', sendMessage);
+        document.getElementById('user-message').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Quick questions
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('quick-question')) {
+                const question = e.target.getAttribute('data-question');
+                document.getElementById('user-message').value = question;
+                sendMessage();
+            }
+        });
+
+        // Send message function
+        function sendMessage() {
+            const messageInput = document.getElementById('user-message');
+            const message = messageInput.value.trim();
+            
+            if (!message) return;
+            
+            const selectedId = document.getElementById('client-select').value;
+            const client = currentClients.find(c => c.__backendId === selectedId);
+            
+            if (!client) {
+                showToast("Selecione um cliente primeiro", "error");
+                return;
+            }
+            
+            // Add user message
+            addMessage(message, 'user');
+            messageInput.value = '';
+            
+            // Generate AI response
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(message, client);
+                addMessage(aiResponse, 'ai');
+            }, 1000);
+        }
+
+        // Add message to chat
+        function addMessage(message, sender) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start space-x-3';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">👤</div>
+                    <div class="bg-green-100 rounded-lg p-3 shadow-sm flex-1">
+                        <p class="text-gray-800">${message}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">IA</div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm flex-1">
+                        <p class="text-gray-800">${message}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Generate AI response based on client data
+        function generateAIResponse(question, client) {
+            const imc = (client.peso / ((client.altura / 100) ** 2)).toFixed(1);
+            const idade = client.idade;
+            const peso = client.peso;
+            const altura = client.altura;
+            const objetivo = client.objetivo;
+            const nivelAtividade = client.nivel_atividade;
+            
+            // Calculate BMR (Basal Metabolic Rate) using Mifflin-St Jeor equation
+            // Assuming average between male and female for simplicity
+            const bmr = Math.round((10 * peso + 6.25 * altura - 5 * idade + 5 + 10 * peso + 6.25 * altura - 5 * idade - 161) / 2);
+            
+            // Activity multipliers
+            const activityMultipliers = {
+                'sedentario': 1.2,
+                'leve': 1.375,
+                'moderado': 1.55,
+                'intenso': 1.725
+            };
+            
+            const tdee = Math.round(bmr * (activityMultipliers[nivelAtividade] || 1.2));
+            
+            const lowerQuestion = question.toLowerCase();
+            
+            if (lowerQuestion.includes('imc')) {
+                let imcAdvice = '';
+                if (imc < 18.5) {
+                    imcAdvice = 'Você está abaixo do peso ideal. Recomendo aumentar a ingestão calórica com alimentos nutritivos e consultar um nutricionista.';
+                } else if (imc < 25) {
+                    imcAdvice = 'Seu IMC está na faixa normal! Continue mantendo hábitos saudáveis.';
+                } else if (imc < 30) {
+                    imcAdvice = 'Você está com sobrepeso. Recomendo uma dieta balanceada e exercícios regulares para alcançar um peso mais saudável.';
+                } else {
+                    imcAdvice = 'Seu IMC indica obesidade. É importante buscar orientação profissional para um plano de emagrecimento seguro.';
+                }
+                
+                return `Seu IMC é ${imc}. ${imcAdvice} Lembre-se: "A persistência realiza o impossível!" 💪`;
+            }
+            
+            if (lowerQuestion.includes('caloria')) {
+                let calorieAdvice = '';
+                if (objetivo === 'perder_peso') {
+                    const deficitCalories = tdee - 500;
+                    calorieAdvice = `Para perder peso de forma saudável, recomendo consumir cerca de ${deficitCalories} calorias por dia (déficit de 500 calorias).`;
+                } else if (objetivo === 'ganhar_massa') {
+                    const surplusCalories = tdee + 300;
+                    calorieAdvice = `Para ganhar massa muscular, consuma cerca de ${surplusCalories} calorias por dia (superávit de 300 calorias).`;
+                } else {
+                    calorieAdvice = `Para manter seu peso atual, consuma cerca de ${tdee} calorias por dia.`;
+                }
+                
+                return `${calorieAdvice} Distribua essas calorias em 5-6 refeições ao longo do dia. "A melhor forma de prever o futuro é criá-lo!" 🎯`;
+            }
+            
+            if (lowerQuestion.includes('exercício') || lowerQuestion.includes('exercicio')) {
+                let exerciseAdvice = '';
+                if (objetivo === 'perder_peso') {
+                    exerciseAdvice = 'Recomendo combinar exercícios aeróbicos (caminhada, corrida, natação) 4-5x por semana com musculação 2-3x por semana.';
+                } else if (objetivo === 'ganhar_massa') {
+                    exerciseAdvice = 'Foque em musculação 4-5x por semana com exercícios compostos (agachamento, supino, levantamento terra) e cardio leve 2x por semana.';
+                } else {
+                    exerciseAdvice = 'Mantenha uma rotina equilibrada: 3x musculação + 2x cardio por semana, sempre respeitando dias de descanso.';
+                }
+                
+                return `${exerciseAdvice} Comece gradualmente e aumente a intensidade progressivamente. "O sucesso é a soma de pequenos esforços repetidos dia após dia!" 🏋️‍♀️`;
+            }
+            
+            if (lowerQuestion.includes('cardápio') || lowerQuestion.includes('cardapio')) {
+                const restrictions = client.restricoes.toLowerCase();
+                let menuSuggestion = `
+**Cardápio Semanal Personalizado:**
+
+**Café da manhã:** Aveia com frutas e castanhas
+**Lanche:** Iogurte natural com granola
+**Almoço:** Proteína magra + arroz integral + legumes + salada
+**Lanche:** Fruta + oleaginosas
+**Jantar:** Proteína + vegetais + carboidrato complexo
+
+**Dicas específicas para seu objetivo (${objetivo.replace('_', ' ')}):**
+                `;
+                
+                if (objetivo === 'perder_peso') {
+                    menuSuggestion += '\n- Reduza carboidratos no jantar\n- Aumente o consumo de vegetais\n- Beba bastante água';
+                } else if (objetivo === 'ganhar_massa') {
+                    menuSuggestion += '\n- Aumente a porção de proteínas\n- Inclua carboidratos em todas as refeições\n- Adicione shakes proteicos';
+                }
+                
+                if (restrictions.includes('lactose')) {
+                    menuSuggestion += '\n- Substitua laticínios por versões sem lactose ou leites vegetais';
+                }
+                
+                return menuSuggestion + '\n\n"Não espere por oportunidades, crie-as!" 🍽️';
+            }
+            
+            // Default response for other questions
+            const responses = [
+                `Baseado no seu perfil (${idade} anos, ${peso}kg, ${altura}cm), recomendo focar em uma alimentação equilibrada e exercícios adequados ao seu nível de atividade (${nivelAtividade}). "Mude seus pensamentos e você mudará o seu mundo!" 🌟`,
+                
+                `Para seu objetivo de ${objetivo.replace('_', ' ')}, é importante manter consistência na alimentação e exercícios. Seu IMC atual é ${imc}. "A felicidade não é algo pronto. Ela é resultado das suas próprias ações!" 😊`,
+                
+                `Lembre-se que cada pessoa é única! Com ${idade} anos e seu nível de atividade ${nivelAtividade}, você pode alcançar seus objetivos com dedicação. "O fracasso é a oportunidade de recomeçar com mais inteligência!" 💪`,
+                
+                `Considerando suas informações, recomendo sempre consultar um nutricionista para um plano mais detalhado. Enquanto isso, mantenha uma alimentação variada e exercite-se regularmente! 🥗`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Render clients list
+        function renderClientsList() {
+            const container = document.getElementById('clients-list');
+            
+            if (currentClients.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center italic">Nenhum cliente cadastrado ainda. Seja o primeiro!</p>';
+                return;
+            }
+
+            container.innerHTML = currentClients.map(client => `
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-4 border-l-4 border-purple-500">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-gray-800">${client.nome}</h4>
+                            <div class="grid md:grid-cols-2 gap-2 mt-2 text-sm text-gray-600">
+                                <p><strong>Idade:</strong> ${client.idade} anos</p>
+                                <p><strong>Peso:</strong> ${client.peso} kg</p>
+                                <p><strong>Altura:</strong> ${client.altura} cm</p>
+                                <p><strong>Objetivo:</strong> ${client.objetivo.replace('_', ' ')}</p>
+                                <p><strong>Nível:</strong> ${client.nivel_atividade}</p>
+                                <p><strong>Cadastrado:</strong> ${new Date(client.createdAt).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteClient('${client.__backendId}')" 
+                                class="ml-4 bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors text-sm">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete client
+        async function deleteClient(backendId) {
+            const client = currentClients.find(c => c.__backendId === backendId);
+            if (!client) return;
+
+            if (window.dataSdk) {
+                const result = await window.dataSdk.delete(client);
+                if (!result.isOk) {
+                    showToast("Erro ao excluir cliente. Tente novamente.", "error");
+                }
+            }
+        }
+
+        // Rotate quotes
+        function rotateQuotes() {
+            const quoteElement = document.getElementById('quote-text');
+            
+            setInterval(() => {
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                quoteElement.style.opacity = '0';
+                
+                setTimeout(() => {
+                    quoteElement.textContent = `"${quotes[currentQuoteIndex]}"`;
+                    quoteElement.style.opacity = '1';
+                }, 300);
+            }, 5000);
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium ${
+                type === 'error' ? 'bg-red-500' : 'bg-green-500'
+            }`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f7e39415109d69',t:'MTc2MzMwNTU1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
